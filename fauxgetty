@@ -1,0 +1,25 @@
+#!/bin/bash
+# Fake getty! Doesn't do literally anything a real getty does except clear the screen, display /etc/issue in agetty format, then run /bin/login.
+#
+#
+
+# Feel free to modify these, these are just the standards as agetty defines.
+n=`uname -n`
+l=modemu-pty
+b=$BAUD
+s=`uname -s`
+m=`uname -m`
+o=`hostname -d`
+O=`hostname -d`
+d=`date "+%a %b %-e  %Y"`
+u=`w | tail -n +3 | wc -l`
+U=`if [[ $u == 1 ]]; then echo 1 user; else echo $u users; fi`
+r=`uname -r`
+t=`date +%H:%M:%S`
+v=`uname -v`
+
+clear
+echo
+cat /etc/issue | sed -e s/\\\\n/"$n"/g -e s/\\\\l/"$l"/g -e s/\\\\b/"$b"/g -e s/\\\\d/"$d"/g -e s/\\\\s/"$s"/g -e s/\\\\m/"$m"/g -e s/\\\\o/"$o"/g -e s/\\\\O/"$O"/g -e s/\\\\r/"$r"/g -e s/\\\\t/"$t"/g -e s/\\\\u/"$u"/g -e s/\\\\U/"$U"/g -e s/\\\\v/"$v"/g
+/bin/login
+
